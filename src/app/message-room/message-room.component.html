@@ -1,0 +1,42 @@
+  <div class="messagecontainer">
+      <div class="messagecontainer__header">
+         <img src="../../assets/images/new-logo.svg" height="50" width="100">
+      </div>
+      <div class="messagecontainer__body" id="messageroombody">
+          <ng-container *ngFor="let message of listofMessages">
+              <div class="messagecontainer__body__container">
+                <div class="msg" [ngClass]="{'incomingmessage': message.type===0,'outcomingmessage':message.type===1}">
+                        <div class="bubble" *ngIf="message.type===0">
+                            <div class="txt">
+                         
+                            <p class="message">
+                                    {{message.text}}
+                            </p> 
+                            <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>      
+                            
+                            </div>
+                        </div>
+                   
+                        <div class="bubble altfollow" *ngIf="message.type===1">
+                            <div class="txt">
+                            <p class="message follow">
+                               {{message.text}}
+                            </p>      
+                            <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>
+                        </div>
+                        </div>        
+                </div>
+            </div>
+          </ng-container>
+      </div>
+      <div class="messagecontainer__footer">
+        <div class="row m-0 pl-4 pr-4">
+          
+            <input class="input-msg messagecontainer__footer__input" (keyup.enter)="addMessage()" name="input"  [(ngModel)]="messageText" placeholder="Type a message" autocomplete="off" autofocus>
+            <button type="button"
+            class="btn messagecontainer__footer__btn"
+            (click)="addMessage()">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+          </div>
+      </div>
+  </div>

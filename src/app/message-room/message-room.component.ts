@@ -59,5 +59,5 @@ export class MessageRoomComponent implements OnInit {
   private scrollToLatestMessage() {
     let element = document.getElementById("messageroombody");
     element.scrollTop = element.scrollHeight;
-  }
+  }// private scrollToLatestMessage()
 }

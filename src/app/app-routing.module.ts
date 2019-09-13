@@ -5,7 +5,7 @@ import { MessageRoomComponent } from './message-room/message-room.component';
 
 
 const routes: Routes = [
-  {path:'',component:MessageRoomComponent},
+  {path:'',component:LandpageComponent},
   {path:'message',component:MessageRoomComponent},
   {path:'**',component:LandpageComponent},
 ];

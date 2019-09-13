@@ -1,6 +1,10 @@
   <div class="messagecontainer">
       <div class="messagecontainer__header">
          <img src="../../assets/images/new-logo.svg" height="50" width="100">
+         <div class="messagecontainer__header__logout" (click)="logoutUser()">
+                logout
+         </div>
+
       </div>
       <div class="messagecontainer__body" id="messageroombody">
           <ng-container *ngFor="let message of listofMessages">
@@ -9,9 +13,9 @@
                         <div class="bubble" *ngIf="message.type===0">
                             <div class="txt">
                          
-                            <p class="message">
-                                    {{message.text}}
-                            </p> 
+                            <div class="message" [innerHTML]="message.text">
+                                    <!-- {{message.text}} -->
+                            </div> 
                             <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>      
                             
                             </div>
@@ -19,8 +23,8 @@
                    
                         <div class="bubble altfollow" *ngIf="message.type===1">
                             <div class="txt">
-                            <p class="message follow">
-                               {{message.text}}
+                            <p class="message follow" [innerHTML]="message.text">
+                               <!-- {{message.text}} -->
                             </p>      
                             <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>
                         </div>

@@ -3,6 +3,8 @@ import * as io from 'socket.io-client';
 import * as uuid from 'uuid';
 import { Message, MessageType, MessageBody, Price, OutGoingMessage } from '../models/message';
 import { MessageService } from '../services/message-handler.service';
+import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-message-room',
@@ -13,18 +15,21 @@ export class MessageRoomComponent implements OnInit {
   public socket;
   public listofMessages: Message[];
   public messageText: string;
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService, private router: Router) {
     this.socket = io('http://localhost:1202');
   }
 
   ngOnInit() {
-    sessionStorage.setItem('wapnumber', '919902357828');
     this.listofMessages = [];
     this.messageText = '';
     this.socket.on('newmessage', (response) => {
       const wapNumber = sessionStorage.getItem('wapnumber');
       if (wapNumber === response.number) {
-        const incomingmessage: Message = new Message(response.description, MessageType.INCOMING);
+        const lines= response.description.split("\n");
+        const incomingmessage: Message = new Message('', MessageType.INCOMING);
+        lines.map(line=>{
+          incomingmessage.text+=`<div>${line}</div>`;
+        })
         this.listofMessages.push(incomingmessage);
         setTimeout(() => this.scrollToLatestMessage(), 800);
       }
@@ -60,4 +65,24 @@ export class MessageRoomComponent implements OnInit {
     let element = document.getElementById("messageroombody");
     element.scrollTop = element.scrollHeight;
   }// private scrollToLatestMessage()
+
+  public logoutUser() {
+    sessionStorage.removeItem('wapnumber');
+    this.router.navigate(['/']);
+  }
+
+  public generateHtmlContent(argIncomigMessage): string {
+    const htmlContentList = argIncomigMessage.split(/[_**_]/);
+    for (let i = 0; i < htmlContentList.length; i++) {
+      console.log(htmlContentList[i]==="");
+      if (htmlContentList[i]==="" && i % 2 == 0) {
+        htmlContentList[i] = '</b>'
+      }
+      if (htmlContentList[i]==="" && i % 2 == 1) {
+        htmlContentList[i] = '<b>'
+      }
+    }
+    console.log(htmlContentList.join());
+    return htmlContentList.join();
+  }
 }

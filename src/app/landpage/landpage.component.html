@@ -3,10 +3,20 @@
                    <img src="../../assets/images/new-logo.svg" height="50" width="75">
         </div>
         <div class="container landingpage__body">
-                <div class="row m-0 landingpage__body__form">
-                        <input type="text" class="landingpage__body__form__input" placeholder="Enter your mobile number">
-                        <span class="landingpage__body__form__prefix">91</span>
-                </div>
+                <form [formGroup]="phoneForm" (ngSubmit)="addPhoneNumber()">
+                        <div class="row  landingpage__body__form">
+                                <input type="text" class="landingpage__body__form__input"  id="phonenumber" 
+                                        formControlName="phonenumber" placeholder="Enter your mobile number">
+                                <span class="landingpage__body__form__prefix">+91</span>
+                                                <p *ngIf="phoneForm.get('phonenumber').touched && phoneForm.get('phonenumber').hasError('required')">Mobile number is required</p>
+                                                <!-- <p *ngIf="phonenumber.errors.pattern">Mobile number is not valid</p> -->
+                        </div>
+                        <div class="row  landingpage__body__form">
+                        <button type="submit" class="btn landingpage__body__form__btn" [disabled]="phoneForm.invalid">
+                                  Continue <i class="fa fa-long-arrow-right landingpage__body__form__btn__icon" aria-hidden="true"></i>
+                        </button>
+                        </div>
+                </form>
         </div>
     
 </div>

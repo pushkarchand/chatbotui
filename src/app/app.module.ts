@@ -7,6 +7,7 @@ import { MessageRoomComponent } from './message-room/message-room.component';
 import { FormsModule } from '@angular/forms';
 import {MessageService} from './services/message-handler.service';
 import { LandpageComponent } from './landpage/landpage.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { LandpageComponent } from './landpage/landpage.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
 import * as uuid from 'uuid';
-import { Message, MessageType, MessageBody, Price, OutGoingMessage } from '../models/message';
+import { Message, MessageType, MessageBody, Price}from '../models/message';
+import {OutGoingMessage, TextMessageBody,DocumentMessageBody ,MessageBodyType} from '../models/message';
 import { MessageService } from '../services/message-handler.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -26,10 +27,12 @@ export class MessageRoomComponent implements OnInit {
       const wapNumber = sessionStorage.getItem('wapnumber');
       if (wapNumber === response.number) {
         const lines= response.description.split("\n");
-        const incomingmessage: Message = new Message('', MessageType.INCOMING);
+        let incomingmessage: Message = new Message('', MessageType.INCOMING);
         lines.map(line=>{
           incomingmessage.text+=`<div>${line}</div>`;
         })
+        incomingmessage.text=incomingmessage.text.split("_*").join("<b>");
+        incomingmessage.text=incomingmessage.text.split("*_").join("</b>");
         this.listofMessages.push(incomingmessage);
         setTimeout(() => this.scrollToLatestMessage(), 800);
       }
@@ -41,18 +44,38 @@ export class MessageRoomComponent implements OnInit {
       const outGoingMessage: Message = new Message(this.messageText, MessageType.OUTGOING);
       this.listofMessages.push(outGoingMessage);
       this.scrollToLatestMessage();
-      const requestBody = this.generateOutgoingMessageObject(this.messageText);
-      this.messageService.handleOutComingMessage(requestBody)
-        .subscribe(response => {
-          console.log(response);
-        })
+      const requestBody = this.generateOutgoingMessageObject(this.messageText,MessageBodyType.TEXT);
+      this.sendMessage(requestBody);
+       this.messageText = '';
     }
-    this.messageText = '';
   }// public addMessage(): void
 
+  public addDocumentMessage(){
+    if (this.messageText) {
+      const outGoingMessage: Message = new Message(this.messageText, MessageType.OUTGOING);
+      this.listofMessages.push(outGoingMessage);
+      this.scrollToLatestMessage();
+      const requestBody = this.generateOutgoingMessageObject(this.messageText,MessageBodyType.DOCUMENT);
+      this.sendMessage(requestBody);
+       this.messageText = '';
+    }
+  }
 
-  private generateOutgoingMessageObject(argText: string): OutGoingMessage[] {
-    const messagebody: MessageBody = new MessageBody('TEXT', argText);
+  private sendMessage(requestBody){
+    this.messageService.handleOutComingMessage(requestBody)
+    .subscribe(response => {
+      console.log(response);
+    })
+  }
+
+
+  private generateOutgoingMessageObject(argText: string,argMessageType:MessageBodyType): OutGoingMessage[] {
+    let messagebody: MessageBody;
+    if(argMessageType===MessageBodyType.DOCUMENT){
+       messagebody= new DocumentMessageBody(MessageBodyType.DOCUMENT, argText);
+    } else {
+       messagebody= new TextMessageBody(MessageBodyType.TEXT, argText);
+    }
     const price: Price = new Price(0.000000, 'HRK');
     const wapPhonenumber = sessionStorage.getItem('wapnumber');
     const outGoingMessage: OutGoingMessage = new OutGoingMessage(wapPhonenumber, "1234", "WHATSAPP", new Date(), uuid.v4(), null, null, messagebody, price);
@@ -69,20 +92,5 @@ export class MessageRoomComponent implements OnInit {
   public logoutUser() {
     sessionStorage.removeItem('wapnumber');
     this.router.navigate(['/']);
-  }
-
-  public generateHtmlContent(argIncomigMessage): string {
-    const htmlContentList = argIncomigMessage.split(/[_**_]/);
-    for (let i = 0; i < htmlContentList.length; i++) {
-      console.log(htmlContentList[i]==="");
-      if (htmlContentList[i]==="" && i % 2 == 0) {
-        htmlContentList[i] = '</b>'
-      }
-      if (htmlContentList[i]==="" && i % 2 == 1) {
-        htmlContentList[i] = '<b>'
-      }
-    }
-    console.log(htmlContentList.join());
-    return htmlContentList.join();
   }
 }

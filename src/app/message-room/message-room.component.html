@@ -14,9 +14,8 @@
                             <div class="txt">
                          
                             <div class="message" [innerHTML]="message.text">
-                                    <!-- {{message.text}} -->
                             </div> 
-                            <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>      
+                            <p class="timestamp">{{message.createdTime| date:'h:mm:ss a'}}</p>      
                             
                             </div>
                         </div>
@@ -26,7 +25,7 @@
                             <p class="message follow" [innerHTML]="message.text">
                                <!-- {{message.text}} -->
                             </p>      
-                            <p class="timestamp">{{message.createdTime| date:'h:mm a'}}</p>
+                            <p class="timestamp">{{message.createdTime| date:'h:mm:ss a'}}</p>
                         </div>
                         </div>        
                 </div>
@@ -41,6 +40,11 @@
             class="btn messagecontainer__footer__btn"
             (click)="addMessage()">
             <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+            <button type="button"
+            class="btn messagecontainer__footer__btn"
+            (click)="addDocumentMessage()">
+                <i class="fa fa-paperclip" aria-hidden="true"></i>
+            </button>
           </div>
       </div>
   </div>

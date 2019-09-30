@@ -9,8 +9,20 @@ export enum MessageType {
 }
 
 export class MessageBody {
-    constructor(public type: string,
-        public text: string) { }
+    constructor(public type: string) { }
+}
+
+export enum MessageBodyType{
+    TEXT='TEXT',
+    DOCUMENT='DOCUMENT'
+}
+
+export class TextMessageBody {
+    constructor(public type: string,public text: string) { }
+}
+
+export class DocumentMessageBody {
+    constructor(public type: string,public url: string,public caption:string="") { }
 }
 
 export class Price {

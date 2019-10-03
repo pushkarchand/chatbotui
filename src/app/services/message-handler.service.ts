@@ -17,6 +17,8 @@ export class MessageService {
         'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwdXJwb3NlIjoiQVBJX3Rva2VuIiwiaWF0IjoxNTU4NjExMjk1fQ.I1qU1LvrGZG79Gyr57cjhbCv5VcUpsCaYQFDqOg8G58'
       })
     };
+    //http://localhost:1202/growth     :: DEVELOPE 2
+    // http://localhost:1202/growth    :: LOCAL HOST
     return this.http.post('http://localhost:1202/growth/whatsapp/messageIncomingHandler', body, httpOptions)
       .pipe(map(messageResponse => {
         console.log(messageResponse);

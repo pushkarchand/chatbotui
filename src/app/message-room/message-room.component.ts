@@ -29,7 +29,7 @@ export class MessageRoomComponent implements OnInit {
         const lines= response.description.split("\n");
         let incomingmessage: Message = new Message('', MessageType.INCOMING);
         lines.map(line=>{
-          incomingmessage.text+=`<div>${line}</div>`;
+          incomingmessage.text += `<div>${line}</div>`;
         })
         incomingmessage.text=incomingmessage.text.split("_*").join("<b>");
         incomingmessage.text=incomingmessage.text.split("*_").join("</b>");

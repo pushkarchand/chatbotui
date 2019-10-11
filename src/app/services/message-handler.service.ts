@@ -26,4 +26,12 @@ export class MessageService {
       }))
   }// public handleOutComingMessage(body:OutGoingMessage[]):Observable<any>
 
+  public enumerateChatHistory():Observable<any>{
+    const wapPhonenumber = sessionStorage.getItem('wapnumber');
+    return this.http.get(`http://localhost:1202/chathistory?WAPhone=${wapPhonenumber}`)
+    .pipe(map(messageResponse => {
+      return messageResponse;
+    }))
+  }
+
 }

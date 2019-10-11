@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
 import * as uuid from 'uuid';
 import { Message, MessageType, MessageBody, Price}from '../models/message';
-import {OutGoingMessage, TextMessageBody,DocumentMessageBody ,MessageBodyType} from '../models/message';
+import { OutGoingMessage, TextMessageBody, DocumentMessageBody, MessageBodyType } from '../models/message';
 import { MessageService } from '../services/message-handler.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -23,6 +23,7 @@ export class MessageRoomComponent implements OnInit {
   ngOnInit() {
     this.listofMessages = [];
     this.messageText = '';
+    this.enumerateChatHistory();
     this.socket.on('newmessage', (response) => {
       const wapNumber = sessionStorage.getItem('wapnumber');
       if (wapNumber === response.number) {
@@ -37,6 +38,59 @@ export class MessageRoomComponent implements OnInit {
         setTimeout(() => this.scrollToLatestMessage(), 800);
       }
     })
+  }
+
+  private enumerateChatHistory(){
+    this.messageService.enumerateChatHistory()
+    .subscribe(response=>{
+        console.log(response);
+        if(response.length>0){
+            this.categorizeChatHistoryMessage(response);
+        }
+    })
+  }// private enumerateChatHistory()
+
+  public categorizeChatHistoryMessage(argMessages){
+    argMessages.sort(function (a, b) {
+      var key1 = a.created_at;
+      var key2 = b.created_at;
+      if (key1 < key2) {
+          return -1;
+      } else if (key1 == key2) {
+          return 0;
+      } else {
+          return 1;
+      }
+    });
+    argMessages.map(message=>{
+      if(message.Incoming===MessageType.INCOMING){
+        const lines= message.Message.split("\n");
+        let outGoingMessage: Message = new Message('', MessageType.INCOMING,message.created_at);
+        lines.map(line=>{
+          outGoingMessage.text += `<div>${line}</div>`;
+        })
+        outGoingMessage.text=outGoingMessage.text.split("_*").join("<b>");
+        outGoingMessage.text=outGoingMessage.text.split("*_").join("</b>");
+        this.listofMessages.push(outGoingMessage);
+      } else{
+        const currentMessage=JSON.parse(message.Message);
+        let lines=[];
+        if(currentMessage.type==="DOCUMENT"){
+          lines= currentMessage.url.split("\n");
+        } else{
+          lines=currentMessage.text.split("\n");
+        }
+        let outGoingMessage: Message = new Message('',MessageType.OUTGOING,message.created_at);
+        lines.map(line=>{
+          outGoingMessage.text += `<div>${line}</div>`;
+        })
+        outGoingMessage.text=outGoingMessage.text.split("_*").join("<b>");
+        outGoingMessage.text=outGoingMessage.text.split("*_").join("</b>");
+        this.listofMessages.push(outGoingMessage);
+      }
+    
+    })
+   setTimeout(()=>{this.scrollToLatestMessage();},600) ;
   }
 
   public addMessage(): void {

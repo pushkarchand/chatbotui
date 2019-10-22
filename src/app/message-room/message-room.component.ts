@@ -30,7 +30,7 @@ export class MessageRoomComponent implements OnInit {
         const lines= response.description.split("\n");
         let incomingmessage: Message = new Message('', MessageType.INCOMING);
         lines.map(line=>{
-          incomingmessage.text += `<div>${line}</div>`;
+          incomingmessage.text += `<div>${line} &nbsp; </div>`;
         })
         incomingmessage.text=incomingmessage.text.split("_*").join("<b>");
         incomingmessage.text=incomingmessage.text.split("*_").join("</b>");
@@ -67,7 +67,7 @@ export class MessageRoomComponent implements OnInit {
         const lines= message.Message.split("\n");
         let outGoingMessage: Message = new Message('', MessageType.INCOMING,message.created_at);
         lines.map(line=>{
-          outGoingMessage.text += `<div>${line}</div>`;
+          outGoingMessage.text += `<div>${line} &nbsp; </div>`;
         })
         outGoingMessage.text=outGoingMessage.text.split("_*").join("<b>");
         outGoingMessage.text=outGoingMessage.text.split("*_").join("</b>");
@@ -82,7 +82,7 @@ export class MessageRoomComponent implements OnInit {
         }
         let outGoingMessage: Message = new Message('',MessageType.OUTGOING,message.created_at);
         lines.map(line=>{
-          outGoingMessage.text += `<div>${line}</div>`;
+          outGoingMessage.text += `<div>${line} &nbsp; </div>`;
         })
         outGoingMessage.text=outGoingMessage.text.split("_*").join("<b>");
         outGoingMessage.text=outGoingMessage.text.split("*_").join("</b>");

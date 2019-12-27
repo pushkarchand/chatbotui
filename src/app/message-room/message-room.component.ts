@@ -43,7 +43,7 @@ export class MessageRoomComponent implements OnInit {
   private enumerateChatHistory(){
     this.messageService.enumerateChatHistory()
     .subscribe(response=>{
-        console.log(response);
+        // console.log(response);
         if(response.length>0){
             this.categorizeChatHistoryMessage(response);
         }
@@ -118,7 +118,7 @@ export class MessageRoomComponent implements OnInit {
   private sendMessage(requestBody){
     this.messageService.handleOutComingMessage(requestBody)
     .subscribe(response => {
-      console.log(response);
+      // console.log(response);
     })
   }
 

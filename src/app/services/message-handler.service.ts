@@ -19,16 +19,16 @@ export class MessageService {
     };
     //http://localhost:1202/growth     :: DEVELOPE 2
     // http://localhost:1202/growth    :: LOCAL HOST
-    return this.http.post('http://localhost:1202/growth/whatsapp/messageIncomingHandler', body, httpOptions)
+    return this.http.post('http://127.0.0.1:1202/growth/whatsapp/messageIncomingHandler', body, httpOptions)
       .pipe(map(messageResponse => {
-        console.log(messageResponse);
+        // console.log(messageResponse);
         return messageResponse;
       }))
   }// public handleOutComingMessage(body:OutGoingMessage[]):Observable<any>
 
   public enumerateChatHistory():Observable<any>{
     const wapPhonenumber = sessionStorage.getItem('wapnumber');
-    return this.http.get(`http://localhost:1202/chathistory?WAPhone=${wapPhonenumber}`)
+    return this.http.get(`http://127.0.0.1:1202/chathistory?WAPhone=${wapPhonenumber}`)
     .pipe(map(messageResponse => {
       return messageResponse;
     }))

@@ -4,6 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { OutGoingMessage } from '../models/message';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 @Injectable()
 export class MessageService {
 
@@ -14,7 +15,7 @@ export class MessageService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwdXJwb3NlIjoiQVBJX3Rva2VuIiwiaWF0IjoxNTU4NjExMjk1fQ.I1qU1LvrGZG79Gyr57cjhbCv5VcUpsCaYQFDqOg8G58'
+        'Authorization': environment.authorization
       })
     };
     //http://localhost:1202/growth     :: DEVELOPE 2

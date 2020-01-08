@@ -29,15 +29,12 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 $ ./tree-md .
 # Project tree
 
-.
- * [tree-md](./tree-md)
- * [dir2](./dir2)
-   * [tslint.json](./tslint.json)
-   * [file22.ext](./dir2/file22.ext)
-   * [file23.ext](./dir2/file23.ext)
- * [dir1](./dir1)
-   * [file11.ext](./dir1/file11.ext)
-   * [file12.ext](./dir1/file12.ext)
- * [file_in_root.ext](./file_in_root.ext)
+ * [src](./src)
+   * [app](./src/app) main folder where module,service,components are present
+   * [assets](./src/assets)
+   * [environments](./src/environments)
  * [README.md](./README.md)
- * [dir3](./dir3)
+ * [package.json](./package.json)
+ * [tsconfig.app.json](./tsconfig.app.json)
+ * [tslint.json](./tslint.json)
+ * [tsconfig.spec.json](./tsconfig.spec.json)
